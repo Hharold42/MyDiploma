@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Определение модели данных для пользователей
+model User {
+  id           Int            @id @default(autoincrement())
+  username     String
+  email        String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  Lesson       Lesson[]
+  Task         Task[]
+  UserProgress UserProgress[]
+}
+
+// Определение модели данных для уроков
+model Lesson {
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String
+  materials    String[]
+  difficulty   Int
+  createdAt    DateTime       @default(now())
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     Int
+  Task         Task[]
+  UserProgress UserProgress[]
+}
+
+// Определение модели данных для задач
+model Task {
+  id         Int      @id @default(autoincrement())
+  text       String
+  solution   String
+  lesson     Lesson   @relation(fields: [lessonId], references: [id])
+  lessonId   Int
+  difficulty Int
+  createdAt  DateTime @default(now())
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   Int
+}
+
+// Определение модели данных для прогресса пользователей
+model UserProgress {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  lessonId  Int
+  progress  Float
+  createdAt DateTime @default(now())
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
