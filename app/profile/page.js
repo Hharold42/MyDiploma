@@ -1,62 +1,47 @@
 "use client";
-import Head from "next/head";
-import { useState } from "react";
 
-const ProfilePage = () => {
-  // Предположим, что у нас есть функция fetchUserData, которая загружает данные пользователя из базы данных
-  const [userData, setUserData] = useState(null);
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-  // Предположим, что у нас есть функция updateUserProfile, которая обновляет данные пользователя в базе данных
-  const updateUserProfile = async (updatedData) => {
-    try {
-      // Вызов функции для обновления данных пользователя
-      await updateUserProfile(updatedData);
-      // Обновление состояния с обновленными данными пользователя
-      setUserData(updatedData);
-    } catch (error) {
-      console.error("Ошибка при обновлении профиля:", error);
-    }
-  };
+const TeacherDashboard = () => {
+  const { data: session, status } = useSession();
+  const [lessons, setLessons] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
-  // Загрузка данных пользователя при монтировании компонента
   useEffect(() => {
-    fetchUserData().then((data) => setUserData(data));
-  }, []);
+    if (status === "authenticated") {
+      axios
+        .get(`/api/user?id=${session.user.id}`)
+        .then((res) => console.log(res.data));
+    }
+  }, [status]);
 
-  if (!userData) {
-    return <div>Загрузка...</div>;
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    return <div>Please sign in to view this page.</div>;
   }
 
   return (
     <div>
-      <Head>
-        <title>Профиль - Математический анализ</title>
-        <meta
-          name="description"
-          content="Страница профиля пользователя для управления личными данными"
-        />
-      </Head>
-
-      <main className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-4">Профиль</h1>
-        <div>
-          <p>
-            <strong>Имя:</strong> {userData.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {userData.email}
-          </p>
-          {/* Другие поля профиля */}
-        </div>
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 mt-4"
-          onClick={() => updateUserProfile(updatedData)}
-        >
-          Редактировать профиль
-        </button>
-      </main>
+      <h1>Welcome, {session.user.username}</h1>
+      <h2>My Lessons</h2>
+      <ul>
+        {lessons.map((lesson) => (
+          <li key={lesson.id}>{lesson.title}</li>
+        ))}
+      </ul>
+      <h2>My Tasks</h2>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.text}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default ProfilePage;
+export default TeacherDashboard;

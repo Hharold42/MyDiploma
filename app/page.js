@@ -24,35 +24,35 @@ const HomePage = () => {
           математического анализа.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">Наши уроки</h2>
+          <div className=" card-base">
+            <h2 className="title-base">Наши уроки</h2>
             <p>
               У нас есть широкий выбор уроков, покрывающих основные концепции
               математического анализа, начиная от дифференциального исчисления
               до интегрального исчисления.
             </p>
             <Link href="/lessons">
-              <div className="text-blue-500 hover:underline mt-2 block">
+              <div className=" link-base">
                 Перейти к урокам
               </div>
             </Link>
           </div>
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">Наши задачи</h2>
+          <div className="card-base">
+            <h2 className="title-base">Наши задачи</h2>
             <p>
               Практика - ключ к пониманию математического анализа. У нас есть
               множество интересных и разнообразных задач для тренировки ваших
               навыков.
             </p>
             <Link href="/tasks">
-              <div className="text-blue-500 hover:underline mt-2 block">
+              <div className="link-base">
                 Перейти к задачам
               </div>
             </Link>
           </div>
         </div>
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-2">
+        <div className="mt-8 card-base">
+          <h2 className="title-base">
             Присоединяйтесь к нам!
           </h2>
           <p>
@@ -60,7 +60,7 @@ const HomePage = () => {
             математического анализа!
           </p>
           <Link href="/register">
-            <div className="text-blue-500 hover:underline mt-2 inline-block">
+            <div className="link-base">
               Зарегистрируйтесь сейчас
             </div>
           </Link>

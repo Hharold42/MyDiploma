@@ -8,13 +8,13 @@ const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="bg-gray-800 text-white p-4 sticky top-0">
-      <div className="container mx-auto flex items-center justify-between">
-        <div>
-          <Link href="/">
-            <div className="text-xl font-bold">Математический анализ</div>
-          </Link>
-        </div>
+    <header className="bg-gray-800 text-white p-4 sticky top-0 h-[80px]">
+      <div className="container mx-auto flex items-center justify-between h-full">
+        <Link href="/" className="h-full flex flex-row items-center">
+          <img src="image.png" className="h-full rounded-full mx-4" />
+          <div className="text-xl font-bold">Математический анализ</div>
+        </Link>
+
         <nav>
           <ul className="flex space-x-4 items-center">
             <li>
@@ -53,18 +53,14 @@ const Header = () => {
             {!session && (
               <li>
                 <Link href="/login">
-                  <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300">
-                    Войти
-                  </div>
+                  <div className="btn-base">Войти</div>
                 </Link>
               </li>
             )}
             {!session && (
               <li>
                 <Link href="/register">
-                  <div className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full transition duration-300">
-                    Регистрация
-                  </div>
+                  <div className="btn-invers">Регистрация</div>
                 </Link>
               </li>
             )}

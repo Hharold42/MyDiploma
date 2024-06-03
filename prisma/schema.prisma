@@ -18,6 +18,28 @@ model User {
   Lesson       Lesson[]
   Task         Task[]
   UserProgress UserProgress[]
+  role         Role           @default(STUDENT) // Добавляем поле для роли пользователя
+  Progress     Progress[]
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+//Определение других моделей
+
+model Progress {
+  id                         Int  @id @default(autoincrement())
+  user                       User @relation(fields: [userId], references: [id])
+  userId                     Int
+  limitAndContinuityLevel    Int? // Уровень понимания пределов и непрерывности функций
+  differentialCalculusLevel  Int? // Уровень навыков дифференциального исчисления
+  integralCalculusLevel      Int? // Уровень понимания интегрального исчисления
+  seriesAndSequencesLevel    Int? // Уровень понимания рядов и последовательностей
+  multivariateAnalysisLevel  Int? // Уровень изучения многомерного анализа
+  differentialEquationsLevel Int? // Уровень решения дифференциальных уравнений
 }
 
 // Определение модели данных для уроков
@@ -36,15 +58,21 @@ model Lesson {
 
 // Определение модели данных для задач
 model Task {
-  id         Int      @id @default(autoincrement())
-  text       String
-  solution   String
-  lesson     Lesson   @relation(fields: [lessonId], references: [id])
-  lessonId   Int
-  difficulty Int
-  createdAt  DateTime @default(now())
-  author     User     @relation(fields: [authorId], references: [id])
-  authorId   Int
+  id                              Int      @id @default(autoincrement())
+  text                            String
+  solution                        String
+  lesson                          Lesson   @relation(fields: [lessonId], references: [id])
+  lessonId                        Int
+  difficulty                      Int      @default(0) // Уровень сложности по умолчанию равен 0
+  createdAt                       DateTime @default(now())
+  author                          User     @relation(fields: [authorId], references: [id])
+  authorId                        Int
+  limitAndContinuityDifficulty    Int?     @default(0) // Уровень сложности для темы "Пределы и непрерывность"
+  differentialCalculusDifficulty  Int?     @default(0) // Уровень сложности для темы "Дифференциальное исчисление"
+  integralCalculusDifficulty      Int?     @default(0) // Уровень сложности для темы "Интегральное исчисление"
+  seriesAndSequencesDifficulty    Int?     @default(0) // Уровень сложности для темы "Ряды и последовательности"
+  multivariateAnalysisDifficulty  Int?     @default(0) // Уровень сложности для темы "Многомерный анализ"
+  differentialEquationsDifficulty Int?     @default(0) // Уровень сложности для темы "Дифференциальные уравнения"
 }
 
 // Определение модели данных для прогресса пользователей

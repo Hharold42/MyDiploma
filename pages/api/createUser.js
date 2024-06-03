@@ -13,6 +13,27 @@ export default async function handler(req, res) {
         },
       });
 
+      const userProgress = await prisma.progress.create({
+        data: {
+          userId: newUser.id,
+          limitAndContinuityLevel: 0,
+          differentialCalculusLevel: 0,
+          integralCalculusLevel: 0,
+          seriesAndSequencesLevel: 0,
+          multivariateAnalysisLevel: 0,
+          differentialEquationsLevel: 0,
+        },
+      });
+
+      await prisma.user.update({
+        where: {
+          id: newUser.id,
+        },
+        data: {
+          progressId: userProgress.id,
+        },
+      });
+
       res.status(200).json(!!newUser);
     } catch (error) {
       return res

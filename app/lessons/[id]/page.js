@@ -1,4 +1,3 @@
-// Файл: pages/lessons/[id].js
 "use client";
 
 import axios from "axios";
@@ -8,18 +7,18 @@ import { useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi"; // Импортируем иконку
 
 const LessonDetailPage = ({ params: { id } }) => {
+  //Использование useState для ре-рендера страницы и управления переменными
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  //Отслеживание изменений id
   useEffect(() => {
     const fetchLesson = async () => {
       try {
         const response = await axios.get(`/api/lesson?q=${id}`);
-        console.log(response);
         setLesson(response.data);
       } catch (error) {
-        console.error("Ошибка при получении урока:", error);
         setError("Ошибка при загрузке урока");
       } finally {
         setLoading(false);
@@ -42,7 +41,6 @@ const LessonDetailPage = ({ params: { id } }) => {
           }
         />
       </Head>
-
       <main className="bg-gray-100 min-h-screen p-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center mb-4">

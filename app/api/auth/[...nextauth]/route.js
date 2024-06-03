@@ -26,7 +26,12 @@ export const authOptions = {
           });
 
           return user
-            ? { id: user.id, email: user.email, name: user.username }
+            ? {
+                id: user.id,
+                email: user.email,
+                name: user.username,
+                role: user.role, // Добавляем роль пользователя в объект сессии
+              }
             : null;
         } catch (error) {
           console.error("Ошибка при аутентификации:", error);
@@ -37,11 +42,19 @@ export const authOptions = {
   ],
   callbacks: {
     session: ({ session, token }) => {
-      return { ...session, user: { ...session.user, id: token.id } };
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          role: token.role,
+          maxAge: 30 * 24 * 60 * 60,
+        }, // Передаем роль из токена в объект сессии
+      };
     },
     jwt: ({ token, user }) => {
       if (user) {
-        return { ...token, id: user.id };
+        return { ...token, id: user.id, role: user.role, secret: 'chushka' }; // Передаем роль пользователя в JWT токен
       }
       return token;
     },

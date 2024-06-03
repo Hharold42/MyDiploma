@@ -51,7 +51,7 @@ const LessonsPage = () => {
               {lessons.map((lesson) => (
                 <li
                   key={lesson.id}
-                  className="bg-white p-4 rounded-md shadow-md"
+                  className="card-ent"
                 >
                   <h2 className="text-xl font-semibold mb-2">{lesson.title}</h2>
                   <p className="text-gray-600">{lesson.description}</p>

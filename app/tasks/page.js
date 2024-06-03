@@ -5,8 +5,11 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const TasksPage = () => {
+  const { data } = useSession();
+
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -72,28 +75,8 @@ const TasksPage = () => {
               ))}
             </ul>
           )}
-          {/* <div className="grid gap-4">
-            {tasks.map((task) => (
-              <div key={task.id} className="border p-4 rounded-md">
-                <Link href={`/tasks/${task.id}`}>
-                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-500 transition-colors duration-300 ease-out">
-                    {task.text}
-                  </h2>
-                </Link>
-                <p className="text-gray-600 mb-2">{task.solution}</p>
-                <div className="text-gray-600 mb-2 flex">
-                  Урок:{" "}
-                  <Link href={`/lessons/${task.lessonId}`}>
-                    <div className="text-blue-500 hover:underline mx-1">
-                      {task.lessonName}
-                    </div>
-                  </Link>
-                </div>
-                <p className="text-gray-600 mb-2">Автор: {task.authorName}</p>
-              </div>
-            ))}
-          </div> */}
         </div>
+        {data && data.user.role === "ADMIN" && <Link className="" href={'/createTask'}>Создать задачу</Link>}
       </main>
     </div>
   );

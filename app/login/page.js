@@ -40,7 +40,7 @@ const LoginPage = () => {
         />
       </Head>
 
-      <main className="bg-gray-100 min-h-screen flex justify-center items-center">
+      <main className="page-wrap">
         <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
           <h2 className="text-3xl font-semibold mb-4 text-center">Вход</h2>
 
